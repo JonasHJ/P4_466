@@ -49,19 +49,6 @@ void ExtractFeat::getMeanHist(Fillet &fillet)
 	fillet.hist_mean[1] = means.val[2];
 }
 
-void ExtractFeat::getDimensions(Fillet &fillet)
-{
-	fillet.area = contourArea(fillet.contour); // Define the minimum rectangle around the contour
-
-	// Get the moments
-	Moments mu;
-	mu = moments(fillet.contour, false);
-
-	//  Get the mass centers with use of moment
-	fillet.contour_center_mass = Point2f(mu.m10 / mu.m00, mu.m01 / mu.m00);
-
-}
-
 void ExtractFeat::getBloodstains(Fillet &fillet)
 {
 	Mat hsv_img;
@@ -272,7 +259,7 @@ void ExtractFeat::run(vector<Mat> &images)
 			// Calculates the mean histogram value of each BGR channel
 			getMeanHist(new_fillet);
 
-			getDimensions(new_fillet);														// Saves desired dimentions of contour to Fillet object
+			fillet.area = contourArea(fillet.contour); // Define the minimum rectangle around the contou														// Saves desired dimentions of contour to Fillet object
 
 			getBloodstains(new_fillet);														// Detects bloodstains and draws them on input image
 
